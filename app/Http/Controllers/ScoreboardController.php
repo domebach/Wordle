@@ -19,7 +19,6 @@ class ScoreboardController extends Controller
     public function store(PlayerRequest $request)
     {
         $player = Player::where('username', $request['username'])->first();
-
         abort_if($player == null, 403, 'Given user is incorrect!');
 
         if ($request['tries'] == null) {

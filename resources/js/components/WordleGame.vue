@@ -3,7 +3,7 @@
                 <letter-row v-for="index in 5" :key="index"/>
 
                 <div class="text-white text-center mt-10">
-                    <div v-if="tries > 0">Du hast noch {{ tries }} Versuche.</div>
+                    <div v-if="tries > 0 && this.result === ''">Du hast noch {{ tries }} Versuche.</div>
                     <div v-else>
                         {{ result == 'victory' ? 'Du hast gewonnen!' : 'Leider nicht geschafft' }}
                     </div>
@@ -66,7 +66,7 @@
             },
 
             redirectToScoreboard() {
-                axios.post('/api/score', {username: this.playername, tries: 5 - this.tries})
+                axios.post('/api/score', {username: this.playername, tries: this.tries})
                     .then(response => {
                         let res = response.data;
                         if (res.success) {
@@ -97,7 +97,6 @@
 
             checkVictory(word) {
                 if (word == this.solutionWord || word.toLowerCase() == this.solutionWord.toLowerCase()) {
-                    this.tries = 0;
                     return 'victory';
                 }
                 return '';
